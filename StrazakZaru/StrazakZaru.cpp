@@ -171,7 +171,7 @@ void addItems(int item, Firefighter& firefighter)
         addItemToBackpack(firefighter, "Wiadro", "Gasi pozar w 50%",3);
         break;
     case 4:
-        addItemToBackpack(firefighter, "Dmuchawa do wody", "Zadaje male obrazenia ale nastepny atak jest podwojony",4);
+        addItemToBackpack(firefighter, "Dmuchawa do wody", "Zadaje male obrazenia ale nastepny atak jest mocniejszy",4);
         break;
     case 5:
         addItemToBackpack(firefighter, "Waz gasniczy", "Uzyteczny do wszytskich pozarow",5);
@@ -218,7 +218,7 @@ double usingItem(Firefighter& firefighter, double fire, bool crit, bool lastStag
     }
 
     items += "\nWybor: ";
-    displayTextSlowly(items,1);  // wyswietlenie tekstu
+    std::cout << items;  // wyswietlenie tekstu
 
     std::string userInput;
     int choice;
@@ -297,8 +297,7 @@ int usingAbility(Firefighter& firefighter)
     }
 
     items += "\nWybor: ";
-
-    displayTextSlowly(items,1); // wyswietlenie tekstu
+    std::cout << items; // wyswietlenie tekstu
 
     while (true)
     {
@@ -406,13 +405,13 @@ void fightEngine(double hpFire, int stage, Firefighter& firefighter)
 
             switch (ability)
             {
-            case 1:
+            case 0:
                 drakeActive = false;
                 break;
-            case 2:
+            case 1:
                 rainActive = true;
                 break;
-            case 3:
+            case 2:
                 critActive = true;
                 break;
             default:
@@ -502,9 +501,9 @@ void fightEngine(double hpFire, int stage, Firefighter& firefighter)
         }
         else if (stage == 3)
         {
-            if (fire + 8 >= 400)
+            if (fire + 8 >= 450)
             {
-                fire = 400;
+                fire = 450;
             }
             else
             {
@@ -558,7 +557,7 @@ void fightEngine(double hpFire, int stage, Firefighter& firefighter)
 
 
     // sprawdzenie danego rezultatu
-    if (lose)
+    if (lose && stage != 4)
     {
         // opis rezultatu bitwy
         std::string info = "Niestety, nie udalo ci sie pokonac pozaru.\n"
@@ -592,7 +591,7 @@ void target()
         "lore oraz zadania do wykonania. Podczas rozgrywki gracz moze napotkac rozne misje poboczne oraz rozmawiac z NPC,\n"
         "co moze wplynac na fabule oraz rozwoj postaci. Po przejsciu wszystkich pieciu lokalizacji gracz zmierzy\n" 
         "sie z finalnym bossem, Wladca Zaru, aby przywrocic pokoj w Pyroklas.";
-    displayTextSlowly(gameGoal);
+    std::cout << gameGoal;
     waitForEnterSec();  // Czekaj na naciśnięcie Enter
     clearScreen();   // Wyczyść ekran
 }
@@ -632,8 +631,7 @@ void showMap()
         "Monumentalna katedra, symbol miasta. Jej wnetrza kryja wspaniale witraze i piekne rzezby,\n"
         "a atmosfera tego miejsca jest przepelniona spokojem i majestatem.\n"
         "----------------------------------------\n";
-
-    displayTextSlowly(map,10); // wyswietlenie mapy
+    std::cout << map;
     waitForEnterSec(); // czekanie na enter
 }
 
@@ -1415,8 +1413,8 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
         clearScreen(); // wyczyszczenie ekranu
         std::string dial = "Bohater: Czesc, wracasz moze z cytadeli?\n\n"
             "Strazak: A nie widac? Cytadela jest w oplakanym stanie, a na dodatek kraży tam smok!\n\n"
-            "Bohater: Czy masz jakieś wskazówki, jak się tam dostać i przejść bezpiecznie?\n\n"
-            "Strazak: Trzymaj tę mapę, pomoże Ci znaleźć bezpieczną drogę. Uważaj na siebie! I pamiętaj, na ogień w cytadeli najlepiej działają bomby wodne.\n\n";
+            "Bohater: Czy masz jakies wskazowki, jak sie tam dostac i przejsc bezpiecznie?\n\n"
+            "Strazak: Trzymaj te mapę, pomoże Ci znaleźć bezpieczną drogę. Uważaj na siebie! I pamietaj, na ogień w cytadeli najlepiej działaja bomby wodne.\n\n";
         displayTextSlowly(dial); // wyswietlenie dialogu
         waitForEnter(); // Czekaj na naciśnięcie Enter
         clearScreen();  // Wyczyść ekran
@@ -1425,8 +1423,8 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
     else if (randomEvent == 3)
     {
         // opis eventu
-        std::string event = "Podczas podrozy w strone cytadeli, przykuło Twoją uwagę opuszczona remiza. "
-            "Zatrzymujesz się na chwilę, by lepiej przyjrzeć się temu, co pozostało z budynku. Czy "
+        std::string event = "Podczas podrozy w strone cytadeli, przykulo Twoja uwage opuszczona remiza. "
+            "Zatrzymujesz sie na chwile, by lepiej przyjrzec sie temu, co pozostalo z budynku. Czy "
             "chcesz przeszukac ten budynek?"
             "\n\n1. Tak\n2. Nie\nWybor: ";
 
@@ -1445,19 +1443,24 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
         if (randomNumber <= 50 && randomNumber >= 25)
         {
             // opis eventu
-            event = "Znalazles wiadro oraz dwie bomby wodna\n\n\n+1 Wiadro\n+2 Bomba wodna";
+            event = "Znalazles wiadro, 3 gasnice oraz dwie bomby wodna\n\n\n+1 Wiadro\n+2 Bomba wodna\n+3 Gasnica";
             displayTextSlowly(event);// Wyswietlenie tekstu
             addItems(3, firefighter); // dodanie gasnicy
             addItems(2, firefighter); // dodanie bomby wodnej
             addItems(2, firefighter); // dodanie bomby wodnej
+            addItems(1, firefighter); // dodanie gasnicy
+            addItems(1, firefighter); // dodanie gasnicy
+            addItems(1, firefighter); // dodanie gasnicy
         }
         else
         {
             // opis eventu
-            event = "Znalazles dwie gasnice i waz gasniczy!\n\n\n+2 Gasnice\n+1 Waz gasniczy";
+            event = "Znalazles dwie gasnice i trzy weze gasnicze!\n\n\n+2 Gasnice\n+3 Waz gasniczy";
             displayTextSlowly(event);// Wyswietlenie tekstu
             addItems(1, firefighter); // dodanie gasnicy
             addItems(1, firefighter); // dodanie gasnicy
+            addItems(5, firefighter); // dodanie weza gasniczego
+            addItems(5, firefighter); // dodanie weza gasniczego
             addItems(5, firefighter); // dodanie weza gasniczego
         }
         waitForEnterSec();  // Czekaj na naciśnięcie Enter
@@ -1467,8 +1470,8 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
     else if (randomEvent == 2)
     {
         // opis eventu
-        std::string event = "Podczas drogi do cytadeli, przypadkowi ludzie poprosili cie o ugaszenie ich domu "
-            "Bbedziesz musial uzyc jednej weza gasniczego, ktory masz przy sobie by ugasic ogromny pozar. "
+        std::string event = "Podczas drogi do cytadeli, przypadkowi ludzie poprosili cie o ugaszenie ich domu\n"
+            "bedziesz musial uzyc jednej weza gasniczego, ktory masz przy sobie by ugasic ogromny pozar.\n"
             "Czy chcesz to zrobic? To moze byc kluczowy moment, wiec decyzja nalezy do Ciebie."
             "\n\n1. Tak\n2. Nie\nWybor: ";
 
@@ -1488,7 +1491,7 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
         std::string dia = "Nieznajomy: Dziekuje ci za zgaszenie naszego domu.\n\n"
             "Bohater: Nie ma za co dziekowac.\n\n"
             "Nieznajomy: Jest, ale w zamian za pomoc ofiarujemy ci gasnice, ktora moze okazac sie przydatna w twojej podrozy.\n\n"
-            "Bohater: Dziekuje za oferte. Przyjmuje ja z wdziecznoscia.\n\n\n-1 Waz gasniczy\n+1 Gasnica";
+            "Bohater: Dziekuje za oferte. Przyjmuje ja z wdziecznoscia.\n\n\n-1 Waz gasniczy\n+1 Gasnica\n+1 Bomba wodna";
 
         // usuniecie weza gasniczego
         for (auto it = firefighter.backpack.begin(); it != firefighter.backpack.end(); ++it) {
@@ -1498,7 +1501,7 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
             }
         }
         addItems(1, firefighter); // dodanie gasciny do ekwipunku
-
+        addItems(2, firefighter);// dodanie bomby wodnej do ekwipunku
         displayTextSlowly(dia); // Wyswietlenie tekstu
         waitForEnter();// Czekaj na naciśnięcie Enter
         clearScreen(); // wyczyszczenie ekranu
@@ -1520,7 +1523,7 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
         }
 
         //opis wyboru
-        event = "Wybierz jedna z opcji\n\n1. Witaj, kim jesteś?\n2. Odejdz!\nWybor: ";
+        event = "Wybierz jedna z opcji\n\n1. Witaj, kim jestes?\n2. Odejdz!\nWybor: ";
         displayTextSlowly(event); // Wyswietlenie tekstu
 
         choice = choice2Options(event); // wybieranie jedne z dwoch opcji
@@ -1530,21 +1533,22 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
         if (choice == 1) {
 
             // opis dialogu
-            std::string dial = "Bohater: Witaj, kim jesteś?\n\n"
-                "Wiedzma: Jestem strazniczka tej krainy. Twoja obecność tutaj nie jest przypadkowa.\n\n"
-                "Bohater: Czy możesz mi pomóc? Szukam wskazówek, jak pokonać smoki i ugasić pożary.\n\n"
-                "Wiedzma: Mogę Ci pomóc. Ale musisz mi odpowiedziec na zagadke ktora przygotowalam dla ciebie, masz 3 proby.\n\n";
+            std::string dial = "Bohater: Witaj, kim jestes?\n\n"
+                "Wiedzma: Jestem strazniczka tej krainy. Twoja obecnosc tutaj nie jest przypadkowa.\n\n"
+                "Bohater: Czy mozesz mi pomoc? Szukam wskazowek, jak pokonac smoki i ugasic pozary.\n\n"
+                "Wiedzma: Moge Ci pomoc. Ale musisz mi odpowiedziec na zagadke ktora przygotowalam dla ciebie, masz 3 proby.\n\n";
             displayTextSlowly(dial);// Wyswietlenie tekstu
-            waitForEnterSec(); // Czekaj na naciśnięcie Enter 
+            waitForEnter(); // Czekaj na naciśnięcie Enter 
             clearScreen(); // Wyczyszczenie ekrany
 
             // opis zagadki
-            dial ="Płynie, a nie rzeka.\n"
-                "Stoi, a nie człowiek.\n"
+            dial ="Plynie, a nie rzeka.\n"
+                "Stoi, a nie cz;owiek.\n"
                 "Czasem się z nim liczysz.\n"
                 "Zawsze jest przy Tobie.\n\nOdpowiedz: ";
-
             displayTextSlowly(dial);// Wyswietlenie tekstu
+            waitForEnter(); // Czekaj na naciśnięcie Enter 
+            clearScreen(); // Wyczyszczenie ekrany
 
             // sprawdzanie czy uzytkownik poprawnie odgadl
             bool accept = false;
@@ -1554,7 +1558,7 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
                 clearScreen();// wyczyszczenie ekranu
                 std::string ans;
                 std::cin >> ans;
-                if (ans == "czas") {
+                if (toLowerCase(ans) == "czas") {
                     accept = true;
                     break;
                 }
@@ -1571,14 +1575,14 @@ void cytadelEventItems(int randomEvent, Firefighter& firefighter)
             if (accept)
             {
                 // opis zgadniecia
-                dial = "BRAWO! Odpowiedź jest poprawna, dostajesz umiejetnosc!\n\n+1 Wzmocnienie gaszenia.";
+                dial = "BRAWO! Odpowiedz jest poprawna, dostajesz umiejetnosc!\n\n+1 Wzmocnienie gaszenia.";
                 addAbilities(3, firefighter); // dodanie umiejetnosci do listy
                 firefighter.score += 30;
             }
             else
             {
                 // opis zgadniecia
-                dial = "Niestety, odpowiedź jest niepoprawna. Nie dostajesz dodatkowej umiejetnosci.";
+                dial = "Niestety, odpowiedz jest niepoprawna. Nie dostajesz dodatkowej umiejetnosci.";
                 firefighter.score += 10;
             }
             displayTextSlowly(dial);// Wyswietlenie tekstu
@@ -1612,15 +1616,6 @@ void cytadel(Firefighter& firefighter)
     std::string road = "Droga - ";
     srand(time(0));
 
-
-    // opis historii
-    hist = "Twoim zadaniem bedzie ugaszenie pozaru w jak najszybszym czasie po przez uzywania rzeczy z ekwpinuku.\n"
-            "Jesli ci sie nie uda ugasic, wplynie to na koncowy rezultat gry.";
-    displayTextSlowly(hist);   // Wyswietlenie tekstu
-    waitForEnter();  // Czekaj na naciśnięcie Enter
-    clearScreen();  // Wyczyść ekran
-
-
     // pokazanie graficznego przebiegu drogi oraz losowanie rawndomowych eventow
     for (char c : text)
     {
@@ -1644,20 +1639,27 @@ void cytadel(Firefighter& firefighter)
         "Jest to Pyroskryt, smok potrafiacy mowic ludzkim glosem. Teraz czeka cie nielatwa walka z ogniem\n"
         "i proba porozumienia sie z rannym smokiem, by zrozumiec, co spowodowalo jego agresje.";
 
+    // opis historii
+    hist = "Twoim zadaniem bedzie ugaszenie pozaru w jak najszybszym czasie po przez uzywania rzeczy z ekwpinuku.\n"
+        "Jesli ci sie nie uda ugasic, wplynie to na koncowy rezultat gry.";
+    displayTextSlowly(hist);   // Wyswietlenie tekstu
+    waitForEnter();  // Czekaj na naciśnięcie Enter
+    clearScreen();  // Wyczyść ekran
+
     fightEngine(450, 3, firefighter);
 
-    hist = "Po zakonczeniu walki z pozarem, bohaterowi udało się dotrzec do rannego smoka. Smok, nazwany Pyroskrytem.";
+    hist = "Po zakonczeniu walki z pozarem, bohaterowi udalo sie dotrzec do rannego smoka. Smok, nazwany Pyroskrytem.";
     displayTextSlowly(hist); // Wyswietlenie tekstu
     waitForEnter();  // Czekaj na naciśnięcie Enter
     clearScreen();  // Wyczyść ekran
 
     // opis dialogu
-    std::string dial = "Czesc, Pyroskrycie. Jak się czujesz?\n\n"
+    std::string dial = "Czesc, Pyroskrycie. Jak sie czujesz?\n\n"
         "Marnie, ale przezyje. Dzieki za interwencje.\n\n"
         "To dobrze, ze udalo mi sie dotrzec na czas. Co spowodowalo twoje rany?\n\n"
         "To Wladca Zaru. To on atakuje smoki, prowokujac je do agresji, a ich agresywne zachowanie prowadzi do pozarow.\n\n"
         "Wladca Zaru? Gdzie go znajdziemy?\n\n"
-        "Musisz udac się na wzgorze. To tam mieszka. Bądź ostrozny, bo to potezny przeciwnik.\n\n"
+        "Musisz udac sie na wzgorze. To tam mieszka. Badz ostrozny, bo to potezny przeciwnik.\n\n"
         "Dzieki za ostrzezenie. Ruszam w droge. Dzieki, Pyroskrycie.";
     displayTextSlowly(hist); // Wyswietlenie tekstu
     waitForEnter();  // Czekaj na naciśnięcie Enter
@@ -1672,7 +1674,6 @@ void finalEvent(Firefighter& firefighter)
         "a geste zarosla sprawialy, ze droga wydawala sie jeszcze bardziej niebezpieczna. Nagle, na srodku drogi,\n"
         "dostrzegłles sylwetke starszego mezczyzny, opierajacego sie na kosturze. Jego biala broda i gleboko osadzone\n"
         "oczy swiadczyly o wielkiej madrosci i doswiadczeniu.\n\n";
-
     displayTextSlowly(hist); // Wyswietlenie tekstu
     waitForEnter();  // Czekaj na naciśnięcie Enter
     clearScreen();  // Wyczyść ekran
@@ -1739,7 +1740,7 @@ void final(Firefighter& firefighter)
         "burzowym chmurom zbierajacym sie nad wzgorzem. Kazdy krok w kierunku wzgorza wydawal sie ciezszy,\n"
         "jakby powietrze samo w sobie bylo przesycone niebezpieczenstwem i tajemnica.\n"
         "Kazdy krok w kierunku wzgorza wydawal sie ciezszy, jakby powietrze samo w sobie bylo przesycone niebezpieczenstwem i tajemnica.\n\n"
-        "Droga byla ciezka i wyboista. Czasami musiales przeciskac sie przez geste zarośla, \n"
+        "Droga byla ciezka i wyboista. Czasami musiales przeciskac sie przez geste zarosla, \n"
         "innym razem omijac powalone drzewa i przeprawiac sie przez rwace potoki. Las wokol ciebie byl cichy, \n"
         "zbyt cichy jak na zwykle warunki. Nawet ptaki zdawaly sie unikac tego miejsca.\n\n";
 
@@ -1772,18 +1773,18 @@ void final(Firefighter& firefighter)
     hist = "W koncu dotarles do podnoza wzgorza. Przed toba rozposcieraly sie strome schody wykute w skale,\n"
         "prowadzace na sam szczyt. Wiedziales, ze na gorze czeka Wladca Zaru, gotowy do walki. Z pelnym zdecydowaniem\n"
         "zacząles wspinaczke, kazdy krok przyblizal cie do konfrontacji z poteznym przeciwnikiem.\n\n";
-
     displayTextSlowly(hist); // Wyswietlenie tekstu
-    waitForEnterSec();  // Czekaj na naciśnięcie Enter
+    waitForEnter();  // Czekaj na naciśnięcie Enter
     clearScreen();  // Wyczyść ekran
 
     //opis historii
-    hist = "Po dlugiej i wyczerpujacej wspinaczce, wreszcie dotarles na szczyt wzgorza. Twoim oczom ukazal sie Wladca Zaru w calej swojej okazalosci. "
-        "Byl to potezny smok o luskach jak lawa, a jego oddech rozpalal powietrze do czerwonosci. Jego oczy plonely zlowieszcza inteligencja, "
-        "a wokol niego krazyly dwa inne smoki - jeden o szafirowych luskach, a drugi o szmaragdowych oczach, obaj gotowi bronic swego pana.\n\n";
+    hist = "Po dlugiej i wyczerpujacej wspinaczce, wreszcie dotarles na szczyt wzgorza. Twoim oczom ukazal sie Wladca\n"
+        "Zaru w calej swojej okazalosci. Byl to potezny smok o luskach jak lawa, a jego oddech rozpalal\n"
+        "powietrze do czerwonosci. Jego oczy plonely zlowieszcza inteligencja, a wokol niego krazyly dwa\n"
+        "inne smoki - jeden o szafirowych luskach, a drugi o szmaragdowych oczach, obaj gotowi bronic swego pana.\n\n ";
 
     displayTextSlowly(hist); // Wyswietlenie tekstu
-    waitForEnterSec();  // Czekaj na naciśnięcie Enter
+    waitForEnter();  // Czekaj na naciśnięcie Enter
     clearScreen();  // Wyczyść ekran
 
     //opis historii
@@ -1946,9 +1947,9 @@ int main() {
     std::string finalStage;
     if (firefighter.score >= 0 && firefighter.score <= 1300)
     {
-        finalStage = "Niestety, nie udało ci się pokonać Władcy Żaru. Jego potęga okazała się zbyt wielka, a twoje wysiłki były niewystarczające.\n"
-            "Miasto zostanie spalone, a ludzie pozostana bezbronni wobec ataków smoków. Twoja porażka zostanie zapamiętana na wieki.\n"
-            "Czy zdołasz zbierzeć siły i spróbować ponownie? To już zależy od ciebie...\n\nWynik - " + std::to_string(firefighter.score);
+        finalStage = "Niestety, nie udalo ci sie pokonac Wladcy Zaru. Jego potega okazala sie zbyt wielka, a twoje wysilki byly niewystarczajace.\n"
+            "Miasto zostanie spalone, a ludzie pozostana bezbronni wobec atakow smokow. Twoja porazka zostanie zapamietana na wieki.\n"
+            "Czy zdołasz zbierzec siły i sprobować ponownie? To juz zalezy od ciebie...\n\nWynik - " + std::to_string(firefighter.score);
 
         displayTextSlowly(finalStage); // Wyswietlenie tekstu
         waitForEnterSec();  // Czekaj na naciśnięcie Enter
@@ -1957,40 +1958,42 @@ int main() {
     else if (firefighter.score >= 1300 && firefighter.score <= 1900)
     {
         /// ostateczna zagadka
-        finalStage = "Twoje losy są niezwykle niepewne. Nie udało ci się pokonać Władcy Żaru, ale nie zostałeś całkowicie pokonany.\n"
-            "Zamiast tego, została ci ostatnia szansa, by odwrócić szalę zwycięstwa. Musisz odgadnąć jedną ważną zagadkę, która zadecyduje o twoim losie.\n\n"
-            "Aby odnaleźć właściwą drogę, musisz rozwiązać starożytną zagadkę:\n\n";
+        finalStage = "Twoje losy sa niezwykle niepewne. Nie udalo ci sie pokonac Wladcy Zaru, ale nie zostales całkowicie pokonany.\n"
+            "Zamiast tego, została ci ostatnia szansa, by odwrocić szalę zwyciestwa. Musisz odgadnac jedna wazna zagadke, która zadecyduje o twoim losie.\n\n"
+            "Aby odnalezc wlasciwa droge, musisz rozwiazac starozytna zagadke:\n\n";
+
         displayTextSlowly(finalStage); // Wyswietlenie tekstu
         waitForEnterSec();  // Czekaj na naciśnięcie Enter
         clearScreen();  // Wyczyść ekran
 
-        finalStage =   "Zawsze masz z tym styczność, niezależnie od tego, gdzie jesteś.\n"
-            "Bez tego nie przeżyjesz, choć może mieć wiele postaci.\n"
-            "Może być zimne lub gorące, spokojne lub burzliwe.\n"
+        finalStage = "Zawsze masz z tym stycznosc, niezaleznie od tego, gdzie jestes.\n"
+            "Bez tego nie przezyjesz, choc moze miec wiele postaci.\n"
+            "Moze byc zimne lub gorace, spokojne lub burzliwe.\n"
             "Co to jest?\n\n"
-            "Wpisz odpowiedź: ";
+            "Wpisz odpowiedz: ";
 
-        displayTextSlowly(finalStage);
-        waitForEnterSec();
-        clearScreen();
+
+        displayTextSlowly(finalStage); // Wyswietlenie tekstu
+        waitForEnterSec();  // Czekaj na naciśnięcie Enter
+        clearScreen();  // Wyczyść ekran
 
         std::string userAnswer;
-        std::cout << "Wpisz odpowiedź: ";
+        std::cout << "Wpisz odpowieds: ";
         std::cin >> userAnswer;
 
         if (toLowerCase(userAnswer) == "woda") {
-            finalStage = "Gratulacje! Twoja odwaga i determinacja pozwoliły ci pokonać Władcę Żaru i uratować Stare Miasto przed zniszczeniem.\n"
-                "Ludzie klaszczą ci na cześć, a twoje imię będzie wspominane z podziwem przez wiele lat.\n"
-                "Twoje zwycięstwo przynosi nadzieję i odrodzenie dla krainy. Świat czeka na kolejne twoje przygody...\n\nWynik - " + std::to_string(firefighter.score);
+            finalStage = "Gratulacje! Twoja odwaga i determinacja pozwoliły ci pokonac Wladce Zaru i uratować Stare Miasto przed zniszczeniem.\n"
+                "Ludzie klaszcza ci na czesc, a twoje imie będzie wspominane z podziwem przez wiele lat.\n"
+                "Twoje zwyciestwo przynosi nadzieje i odrodzenie dla krainy. Swiat czeka na kolejne twoje przygody...\n\nWynik - " + std::to_string(firefighter.score);
 
             displayTextSlowly(finalStage); // Wyswietlenie tekstu
             waitForEnterSec();  // Czekaj na naciśnięcie Enter
             clearScreen();  // Wyczyść ekran
         }
         else {
-            finalStage = "Niestety, nie udało ci się pokonać Władcy Żaru. Jego potęga okazała się zbyt wielka, a twoje wysiłki były niewystarczające.\n"
-                "Miasto zostanie spalone, a ludzie pozostana bezbronni wobec ataków smoków. Twoja porażka zostanie zapamiętana na wieki.\n"
-                "Czy zdołasz zbierzeć siły i spróbować ponownie? To już zależy od ciebie...\n\nWynik - " + std::to_string(firefighter.score);
+            finalStage = "Niestety, nie udalo ci sie pokonac Wladcy Zaru. Jego potega okazala sie zbyt wielka, a twoje wysilki byly niewystarczajace.\n"
+                "Miasto zostanie spalone, a ludzie pozostana bezbronni wobec atakow smokow. Twoja porazka zostanie zapamietana na wieki.\n"
+                "Czy zdołasz zbierzec siły i sprobowac ponownie? To juz zalezy od ciebie...\n\nWynik - " + std::to_string(firefighter.score);
 
             displayTextSlowly(finalStage); // Wyswietlenie tekstu
             waitForEnterSec();  // Czekaj na naciśnięcie Enter
@@ -1999,16 +2002,14 @@ int main() {
     }
     else
     {
-        finalStage = "Gratulacje! Twoja odwaga i determinacja pozwoliły ci pokonać Władcę Żaru i uratować Stare Miasto przed zniszczeniem.\n"
-            "Ludzie klaszczą ci na cześć, a twoje imię będzie wspominane z podziwem przez wiele lat.\n"
-            "Twoje zwycięstwo przynosi nadzieję i odrodzenie dla krainy. Świat czeka na kolejne twoje przygody...\n\nWynik - " + std::to_string(firefighter.score);
+        finalStage = "Gratulacje! Twoja odwaga i determinacja pozwoliły ci pokonać Wladce Zaru i uratować Stare Miasto przed zniszczeniem.\n"
+            "Ludzie klaszcza ci na czesc, a twoje imie będzie wspominane z podziwem przez wiele lat.\n"
+            "Twoje zwyciestwo przynosi nadzieje i odrodzenie dla krainy. Swiat czeka na kolejne twoje przygody...\n\nWynik - " + std::to_string(firefighter.score);
 
         displayTextSlowly(finalStage); // Wyswietlenie tekstu
         waitForEnterSec();  // Czekaj na naciśnięcie Enter
         clearScreen();  // Wyczyść ekran
     }
-
-
 
     return 0;
 }
